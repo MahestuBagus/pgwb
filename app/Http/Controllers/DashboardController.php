@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kontak;
 use App\Models\project;
 use App\Models\siswa;
 use Illuminate\Http\Request;
@@ -17,8 +18,9 @@ class DashboardController extends Controller
     {
         $jumlah = siswa::all()->count();
         $jumlah2 = project::all()->count();
+        $jumlah3 = kontak::all()->count();
         // dd($jumlah);
-        return view('admin.Dashboard', compact('jumlah', 'jumlah2'));
+        return view('admin.Dashboard', compact('jumlah', 'jumlah2','jumlah3'));
     }
 
     /**

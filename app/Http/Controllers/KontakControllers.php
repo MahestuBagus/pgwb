@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
@@ -18,9 +19,9 @@ class KontakControllers extends Controller
      */
     public function index()
     {
-        $data = siswa::Paginate(5);
+        $data = siswa::get();
         $jenis = jenis_kontak::all();
-        return view ('admin.MasterKontak', compact('data', 'jenis'));
+        return view('admin.MasterKontak', compact('data', 'jenis'));
     }
 
     /**
@@ -28,21 +29,20 @@ class KontakControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-
+        $siswa = siswa::find($id);
+        $j_kontak = jenis_kontak::all();
+        return view('admin.TambahKontak', compact('siswa', 'j_kontak'));
     }
 
     public function tambahkontak()
     {
-        return view ('tambahjeniskontak');
+        return view('tambahjeniskontak');
     }
 
     public function tambah($id)
     {
-        $siswa=siswa::find($id);
-        $jenis=jenis_kontak::all();
-        return view ('admin.TambahKontak', compact('siswa', 'jenis'));
     }
 
     /**
@@ -53,23 +53,26 @@ class KontakControllers extends Controller
      */
     public function store(Request $request)
     {
-        $message = [
-            'required' => ':attribute Harus Di isi!',
+        $masage = [
+            'required' => ':attribute harus diisi',
+            'min' => ':attribute minimal :min karakter',
+            'max' => ':attribute maximal :max karakter',
+            'numeric' => ':attribute harus diisi angka',
+            'mimes' => ':attribute harus bertipe foto'
         ];
-        $validateData = $request->validate([
-            'jenis_kontak_id' => 'required',
-            'deskripsi' => 'required',
-        ], $message);
+
+        $this->validate($request, [
+            // 'deskripsi' => 'required|min:10'
+        ], $masage);
 
         kontak::create([
-            'siswa_id' => $request->siswa_id,
-            'jenis_kontak_id' => $request->jenis_kontak_id,
-            'deskripsi' => $request->deskripsi,
+            'siswa_id' => $request->id_siswa,
+            'jenis_kontak_id' => $request->jenis_kontak,
+            'deskripsi' => $request->deskripsi
         ]);
-            
-        Session::flash('benar', 'Selamat!!! Data Berhasil Ditambahkan');
+
+        Session::flash('success', "Kontak berhasil ditambahkan!!");
         return redirect('/masterkontak');
-    
     }
 
     /**
@@ -80,8 +83,8 @@ class KontakControllers extends Controller
      */
     public function show($id)
     {
-        $kontak=siswa::find($id)->kontak()->get();
-        return view('showkontak', compact('kontak'));
+        $kontak = siswa::find($id)->kontak()->get();
+        return view('admin.ShowKontak', compact('kontak'));
     }
 
     /**
@@ -94,8 +97,8 @@ class KontakControllers extends Controller
     {
         $kontak = kontak::find($id);
         $siswa = siswa::find($id);
-        $jenis=jenis_kontak::all();
-        return view('EditKontak', compact('kontak', 'siswa', 'jenis'));
+        $j_kontak = jenis_kontak::all();
+        return view('admin.EditKontak', compact('kontak', 'siswa', 'j_kontak'));
     }
 
     /**
@@ -107,11 +110,13 @@ class KontakControllers extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         $kontak = kontak::find($id);
-        $kontak->jenis_kontak = $request->jenis_kontak;
+        $kontak->siswa_id = $request->siswa_id;
+        $kontak->jenis_kontak_id = $request->jenis_kontak;
         $kontak->deskripsi = $request->deskripsi;
         $kontak->save();
-        Session::flash('update', 'Selamat!!! Project Anda Berhasil Diupdate');
+        Session::flash('update', 'Selamat!!! Kontak Anda Berhasil Diupdate');
         return redirect('/masterkontak');
     }
 
@@ -132,6 +137,6 @@ class KontakControllers extends Controller
     {
         $siswa = kontak::find($id)->delete();
         Session::flash('success', 'Data Berhasil Dihapus');
-        return redirect('masterproject');
+        return redirect('masterkontak');
     }
 }

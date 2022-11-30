@@ -1,10 +1,9 @@
 @extends('admin.app')
  
-@section('title', 'Tambah Project')
-@section('content-title', 'Tambah Project - '.$idnya->nama)
+@section('title', 'Edit Project')
+@section('content-title', 'Edit Project - '.$siswa->nama_project)
 @section('content')
-
-<h1>Halaman Edit Project</h1>
+    <br>
     <div class="row">
         <div class="col-lg-12">
             <div class="card shadow mb-4">
@@ -23,7 +22,7 @@
                         @method('PUT')
                         <div class="form-group">
                             <label for="nama_p">Nama Project</label>
-                            <input type="text" class="form-control" id="nama_project" name='nama_project' value="{{ $siswa->nama_project }}">
+                            <input type="text" class="form-control" id="nama_project" name='nama_p' value="{{ $siswa->nama_project }}">
                         </div>
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
@@ -36,7 +35,7 @@
                         <div class="form-group">
                             <input type="submit" value="Update" class="btn btn-success">
                             {{-- <a href="submit" class="btn btn-success">Update</a> --}}
-                            <a href="{{ route('masterproject.index') }}" class="btn btn-danger">Batal</a>
+                            <a href="{{ route('mastersiswa.index') }}" class="btn btn-danger">Batal</a>
                         </div>
                     </form>
                 </div>

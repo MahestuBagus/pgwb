@@ -19,7 +19,7 @@
         </div>
         <div class="card shadow mb-4">
             <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-tty"></i>Contact Siswa</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-tty"></i>Kontak Siswa</h6>
             </div>
             <div class="card-body text-center">
                 @foreach ($kontaks as $kontak)
@@ -34,6 +34,13 @@
                 <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-yin-yang"></i>Project siswa</h6>
             </div>
             <div class="card-body">
+                @foreach ($project as $p)
+                <blockquote class="blockquote tecxt-center">
+                    <p class="mb-0">{{$p->nama_project}}</p>
+                </blockquote>
+                @endforeach
+            </div>
+            <div class="card-body">
             </div>
         </div>
         <div class="card shadow mb-4">
@@ -44,6 +51,7 @@
                 <blockquote class="blockquote tecxt-center">
                     <p class="mb-0">{{$siswa->about}}</p>
                     <footer class="blockquote-footer">Ditulis oleh <cite title="Source Title"></cite></footer>
+                    <p class="mb-0 fs-" style="font-size: 14px;">{{$siswa->nama}}</p>
                 </blockquote>
             </div>
         </div>

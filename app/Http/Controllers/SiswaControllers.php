@@ -83,8 +83,10 @@ class SiswaControllers extends Controller
     {
         $siswa = siswa::find($id);
         $kontaks = $siswa->kontak()->get();
-        // return ($kontak);
-        return view('admin.ShowSiswa', compact('siswa', 'kontaks'));
+        $project = $siswa->project()->get();
+        $project = $siswa->kontak()->get();
+        // return ($project);
+        return view('admin.ShowSiswa', compact('siswa', 'kontaks','project'));
     }
 
     /**

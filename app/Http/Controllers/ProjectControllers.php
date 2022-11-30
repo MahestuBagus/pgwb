@@ -88,10 +88,10 @@ class ProjectControllers extends Controller
      */
     public function edit($id)
     {
-        $idnya = siswa::find($id);
+        // $id = siswa::find($id);
         $siswa = project::find($id);
         // return $siswa;
-        return view('admin.EditProject', compact('siswa', 'idnya'));
+        return view('admin.EditProject', compact('siswa'));
     }
 
     /**
